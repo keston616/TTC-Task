@@ -1,0 +1,85 @@
+﻿<Page x:Class="TestWork.AdminPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:TestWork"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="AdminPage">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="80"/>
+            <RowDefinition Height="80"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Border MouseLeftButtonDown="LogOutClick" >
+            <TextBlock Text="Log out" 
+                       FontFamily="Roboto"
+                       FontSize="18" 
+                      
+                       Foreground="#0000CD"
+                       HorizontalAlignment="Right"
+                       Margin="0,20,30,0"/>
+        </Border>
+        <StackPanel Orientation="Horizontal"
+                    HorizontalAlignment="Right"
+                    Grid.Row="1">
+            <StackPanel.Resources>
+                <Style TargetType="TextBlock">
+                    <Setter Property="FontSize" Value="12"/>
+                    <Setter Property="FontFamily" Value="Roboto"/>
+                    <Setter Property="HorizontalAlignment" Value="Left"/>
+                </Style>
+                <Style TargetType="ComboBox">
+                    <Setter Property="FontSize" Value="16"/>
+                    <Setter Property="FontFamily" Value="Roboto"/>
+                    <Setter Property="HorizontalAlignment" Value="Left"/>
+                    <Setter Property="Width" Value="150"/>
+                    <Setter Property="Height" Value="30"/>
+                </Style>
+            </StackPanel.Resources>
+            <StackPanel Orientation="Vertical">
+                <TextBlock Text="Тип"/>
+                <ComboBox x:Name="TypeBox" 
+                          SelectedIndex="0"
+                          DisplayMemberPath="TypeOfAction"
+                          SelectionChanged="SortParametrChanged" 
+                          VerticalContentAlignment="Center"/>
+            </StackPanel>
+            <StackPanel Orientation="Vertical" Margin="10,0,30,0">
+                <TextBlock Text="Тип"/>
+                <DatePicker x:Name="DateBox" SelectedDateChanged="SortParametrChanged" Margin="0,0,30,0" />
+            </StackPanel>
+        </StackPanel>
+        <ListView x:Name="HistoryListView" Grid.Row="2" HorizontalContentAlignment="Center" >
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <Grid Height="70" DataContext="{Binding .}" Width="800"  >
+                        <Border  Background="#fcfcee" CornerRadius="4">
+                            <Border.Resources>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="FontFamily" Value="Roboto"/>
+                                    <Setter Property="FontSize" Value="16"/>
+                                    <Setter Property="VerticalAlignment" Value="Center"/>
+                                </Style>
+                            </Border.Resources>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="{Binding DateChagned, StringFormat={} dd.MM.yyyy hh\\:mm}" Margin="20,0,0,0"/>
+                                <TextBlock  Grid.Column="1" Text="{Binding TypeChanged.TypeOfAction}" />
+                                <TextBlock Grid.Column="2" Text="{Binding Coordination}" />
+                            </Grid>
+                          
+                        </Border>
+                    </Grid>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+    </Grid>
+</Page>

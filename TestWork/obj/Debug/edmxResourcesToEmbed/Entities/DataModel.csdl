@@ -1,0 +1,99 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="DataModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Role">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int64" Nullable="false" />
+    <Property Name="Name" Type="String" MaxLength="2147483647" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="Users" Relationship="DataModel.FK_Users_0_0" FromRole="Role" ToRole="Users" />
+  </EntityType>
+  <EntityType Name="TypeChanged">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="TypeOfAction" Type="String" MaxLength="40" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="HistoryChanged" Relationship="DataModel.FK_HistoryChanged_1_0" FromRole="TypeChanged" ToRole="HistoryChanged" />
+  </EntityType>
+  <EntityContainer Name="MainEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Role" EntityType="Self.Role" />
+    <EntitySet Name="TypeChanged" EntityType="Self.TypeChanged" />
+    <EntitySet Name="HistoryChanged" EntityType="DataModel.HistoryChanged" />
+    <AssociationSet Name="FK_HistoryChanged_1_0" Association="DataModel.FK_HistoryChanged_1_0">
+      <End Role="TypeChanged" EntitySet="TypeChanged" />
+      <End Role="HistoryChanged" EntitySet="HistoryChanged" />
+    </AssociationSet>
+    <EntitySet Name="Users" EntityType="DataModel.Users" />
+    <AssociationSet Name="FK_HistoryChanged_0_0" Association="DataModel.FK_HistoryChanged_0_0">
+      <End Role="Users" EntitySet="Users" />
+      <End Role="HistoryChanged" EntitySet="HistoryChanged" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Users_0_0" Association="DataModel.FK_Users_0_0">
+      <End Role="Role" EntitySet="Role" />
+      <End Role="Users" EntitySet="Users" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="HistoryChanged">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="UserId" Type="Int64" />
+    <Property Name="TypeId" Type="Int64" />
+    <Property Name="DateChagned" Type="DateTime" />
+    <Property Name="XCoordinates" Type="Int64" />
+    <Property Name="YCoordinates" Type="Int64" />
+    <NavigationProperty Name="TypeChanged" Relationship="DataModel.FK_HistoryChanged_1_0" FromRole="HistoryChanged" ToRole="TypeChanged" />
+    <NavigationProperty Name="Users" Relationship="DataModel.FK_HistoryChanged_0_0" FromRole="HistoryChanged" ToRole="Users" />
+  </EntityType>
+  <Association Name="FK_HistoryChanged_1_0">
+    <End Type="DataModel.TypeChanged" Role="TypeChanged" Multiplicity="0..1" />
+    <End Type="DataModel.HistoryChanged" Role="HistoryChanged" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TypeChanged">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="HistoryChanged">
+        <PropertyRef Name="TypeId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="Users">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Login" Type="String" MaxLength="40" FixedLength="false" Unicode="true" />
+    <Property Name="Password" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+    <Property Name="RoleId" Type="Int64" Nullable="false" />
+    <Property Name="Email" Type="String" Nullable="false" MaxLength="60" FixedLength="false" Unicode="true" />
+    <Property Name="Phone" Type="String" MaxLength="12" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="HistoryChanged" Relationship="DataModel.FK_HistoryChanged_0_0" FromRole="Users" ToRole="HistoryChanged" />
+    <NavigationProperty Name="Role" Relationship="DataModel.FK_Users_0_0" FromRole="Users" ToRole="Role" />
+  </EntityType>
+  <Association Name="FK_HistoryChanged_0_0">
+    <End Type="DataModel.Users" Role="Users" Multiplicity="0..1" />
+    <End Type="DataModel.HistoryChanged" Role="HistoryChanged" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Users">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="HistoryChanged">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Users_0_0">
+    <End Type="DataModel.Role" Role="Role" Multiplicity="1" />
+    <End Type="DataModel.Users" Role="Users" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Role">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Users">
+        <PropertyRef Name="RoleId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>

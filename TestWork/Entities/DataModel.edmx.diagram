@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="3737d775fb294cf19d68424f99254ade" Name="Diagram1">
+        <EntityTypeShape EntityType="DataModel.Role" Width="1.5" PointX="0.75" PointY="1.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="DataModel.TypeChanged" Width="1.5" PointX="3" PointY="5.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="DataModel.HistoryChanged" Width="1.5" PointX="5.25" PointY="2.75" />
+        <AssociationConnector Association="DataModel.FK_HistoryChanged_1_0" />
+        <EntityTypeShape EntityType="DataModel.Users" Width="1.5" PointX="3" PointY="0.875" />
+        <AssociationConnector Association="DataModel.FK_HistoryChanged_0_0" />
+        <AssociationConnector Association="DataModel.FK_Users_0_0" />
+        </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

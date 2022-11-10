@@ -1,0 +1,98 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="DataModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Role">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int64" Nullable="false" />
+    <Property Name="Name" Type="String" MaxLength="2147483647" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="Users" Relationship="Self.FK_Users_0_0" FromRole="Role" ToRole="Users" />
+  </EntityType>
+  <EntityType Name="Type">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="UserId" Type="Int64" />
+    <Property Name="TypeId" Type="Int64" />
+    <Property Name="DateChagned" Type="DateTime" />
+    <Property Name="XCoordinates" Type="Int64" />
+    <Property Name="YCoordinates" Type="Int64" />
+    <NavigationProperty Name="Users" Relationship="Self.FK_Type_0_0" FromRole="Type" ToRole="Users" />
+    <NavigationProperty Name="TypeChanged" Relationship="Self.FK_Type_1_0" FromRole="Type" ToRole="TypeChanged" />
+  </EntityType>
+  <EntityType Name="TypeChanged">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="TypeOfAction" Type="String" MaxLength="40" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Type" Relationship="Self.FK_Type_1_0" FromRole="TypeChanged" ToRole="Type" />
+  </EntityType>
+  <EntityType Name="Users">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Login" Type="String" MaxLength="40" FixedLength="false" Unicode="true" />
+    <Property Name="Password" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+    <Property Name="RoleId" Type="Int64" Nullable="false" />
+    <Property Name="Email" Type="String" MaxLength="60" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="Role" Relationship="Self.FK_Users_0_0" FromRole="Users" ToRole="Role" />
+    <NavigationProperty Name="Type" Relationship="Self.FK_Type_0_0" FromRole="Users" ToRole="Type" />
+  </EntityType>
+  <Association Name="FK_Users_0_0">
+    <End Role="Role" Type="Self.Role" Multiplicity="1" />
+    <End Role="Users" Type="Self.Users" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Role">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Users">
+        <PropertyRef Name="RoleId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Type_0_0">
+    <End Role="Users" Type="Self.Users" Multiplicity="0..1" />
+    <End Role="Type" Type="Self.Type" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Users">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Type">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Type_1_0">
+    <End Role="TypeChanged" Type="Self.TypeChanged" Multiplicity="0..1" />
+    <End Role="Type" Type="Self.Type" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TypeChanged">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Type">
+        <PropertyRef Name="TypeId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="MainEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Role" EntityType="Self.Role" />
+    <EntitySet Name="Type" EntityType="Self.Type" />
+    <EntitySet Name="TypeChanged" EntityType="Self.TypeChanged" />
+    <EntitySet Name="Users" EntityType="Self.Users" />
+    <AssociationSet Name="FK_Users_0_0" Association="Self.FK_Users_0_0">
+      <End Role="Role" EntitySet="Role" />
+      <End Role="Users" EntitySet="Users" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Type_0_0" Association="Self.FK_Type_0_0">
+      <End Role="Users" EntitySet="Users" />
+      <End Role="Type" EntitySet="Type" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Type_1_0" Association="Self.FK_Type_1_0">
+      <End Role="TypeChanged" EntitySet="TypeChanged" />
+      <End Role="Type" EntitySet="Type" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>
